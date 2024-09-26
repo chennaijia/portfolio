@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 在金融科技的運用及未來展望</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background: linear-gradient(to right, #f8f8f8, #e0e0e0);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(to right, #A0C1D2, #7ba3c2);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1s ease-out;
+        }
+
+
+        h1{
+            color:#f8f8f8;
+        }
+
+        h2{
+            color: #6692b4;
+        }
+
+        h3{
+            color: #839caf;
+        }
+
+        section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            animation: fadeIn 1s ease-out;
+        }
+
+        section:hover {
+            transform: scale(1.02);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            border-bottom: 2px;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        b {
+            color: #658fa2;
+        }
+
+        .highlight {
+            background-color: #ffffcc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .columns {
+            display: flex;
+            justify-content: space-between;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .column {
+            width: 48%;
+            transition: transform 0.3s ease-in-out;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .column:hover {
+            transform: scale(1.02);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to right, #A0C1D2, #7ba3c2);
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        p.subtitle {
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .colored-text {
+            color: #507b8f; 
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .navigation-button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: #A0C1D2;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .navigation-button:hover {
+            background-color: #4a7b93;
+        }
+
+        #sources {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #sources a {
+            color: #507b8f; /* Change this to the color you want for linked text */
+            text-decoration: underline;
+            transition: color 0.3s transform 0.3s;
+        }
+
+        #sources a:hover {
+            color: #314e5d; /* Change this to the color you want on hover */
+            transform: scale(1.02); /* Add a slight scale transformation on hover */
+        }
+
+        #scrollToTopBtn {
+            position: fixed;
+            bottom: 50px;
+            right: 30px;
+            display: none;
+            background-color: rgba(50, 86, 104, 0.8);
+            color: #fff;
+            border: none;
+            border-radius: 15px;
+            padding: 21px 28px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s ease-in-out, opacity 0.3s;
+        }
+
+        #scrollToTopBtn:hover {
+            background-color: rgba(45, 85, 104, 0.9);
+            transform: scale(1.05);
+        }
+
+        #scrollToTopBtn.fade-in {
+        opacity: 1;
+        transform: translateY(0);
+        }
+
+        /* Added a class for the fade-out animation */
+        #scrollToTopBtn.fade-out {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>AI 在金融科技的運用及未來展望</h1>
+        <p class="subtitle">第四組 陳乃嘉 鍾孟庭 許巧璇 盧宣諭 林柔捷</p>
+    </header>
+
+    <div class="navigation-buttons">
+        <button class="navigation-button" onclick="scrollToSection('definition')">定義</button>
+        <button class="navigation-button" onclick="scrollToSection('services')">服務類型</button>
+        <button class="navigation-button" onclick="scrollToSection('examples')">實例</button>
+        <button class="navigation-button" onclick="scrollToSection('applications')">運用</button>
+        <button class="navigation-button" onclick="scrollToSection('challenges')">難題、解決方法</button>
+        <button class="navigation-button" onclick="scrollToSection('future')">未來展望</button>
+        <button class="navigation-button" onclick="scrollToSection('sources')">資料來源</button>
+    </div>
+
+    <section id="definition">
+        <h2>定義</h2>
+        <p>
+            1.<span class="colored-text">「金融服務創新」</span>是指企業運用科技結合行動裝置、網際網路、電腦程式等再透過<span class="colored-text">大數據分析、人工智慧</span>等技術，使金融服務變得更有效率，更流暢，而形成的一種新產品
+        </p>
+        <p>
+            2. 泛指利用計算機和智能手機的軟體和演算法，協助幫助金融業者和消費者能更好地管理其財務運營、使用體驗和生活
+        </p>
+    </section>
+
+    <section id="services">
+        <h2>服務類型</h2>
+        <div class="columns">
+            <div class="column">
+                <ul>
+                    <li>支付</li>
+                    <li>存款與貸款</li>
+                    <li>保險</li>
+                </ul>
+            </div>
+            <div class="column">
+                <ul>
+                    <li>市場資訊供應</li>
+                    <li>投資管理</li>
+                    <li>籌資</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="examples">
+        <h2>實例</h2>
+
+        <section>
+            <h3>P2P借貸</h3>
+            <p>
+                <b>定義:</b> 去除傳統金融機構作為中間人的角色，利用平台媒合有金融需求的借方與貸方
+            </p>
+            <p>
+                <b>好處:</b></br>
+                    - 減少時間與皮鞋成本</br>
+                    - 無人化與自動化</br>
+                    - 利率報酬增加</br>
+                    使熟悉科技的學生等族群受惠
+            </p>
+            <p>
+                <b>例子:</b> 惠普公司
+            </p>
+        </section>
+
+        <section>
+            <h3>區塊鏈技術</h3>
+            <p>
+                <b>定義:</b> 依靠複雜的密碼學來加密資料，再透過巧妙的數學分散式演算法，可以在不需要第三方介入的前提下讓使用者達成共識
+            </p>
+            <p>
+                <b>好處:</b></br>
+                - 時間金錢成本的減少</br>
+                - 去中心化(開放性、獨立性)</br>
+                - 不可竄改性</br>
+                - 安全性
+                </ul>
+            </p>
+            <p>
+                <b>例子:</b> CryptoGPT
+            </p>
+        </section>
+    </section>
+
+    <section id="applications">
+        <h2>運用</h2>
+
+        <section>
+            <h3>精準行銷</h3>
+            <p>
+                <b>定義:</b> 利用「數據分析」，定義目標市場現況、分析受眾輪廓與需求，篩選出更具動機且精準的潛在受眾。把過去漫無目的的行銷手法，改為針對「數量較少，但具備高動機」的潛在用戶進行行銷。
+            </p>
+            <p>
+                <b>例子：</b></br>
+                - 精準發放優惠券</br>
+                - 廣告投放</br>
+                - 賣場櫃位擺設
+            </p>
+        </section>
+
+        <section>
+            <h3>信用評價智慧分析</h3>
+            <p>
+                <b>定義:</b> 人工智慧蒐集每個人在網路上或其他地方產生的各種數據，包括線上購物的行為、手機的位置資訊、交友圈情況，利用<span class="colored-text">機器學習</span>等技術把數據轉換成信用分數，使用此方式做出<span class="colored-text">信用評級模型</span>，按照一個人分數的高低判斷他守信與否，決定要不要借以及借款利率
+            </p>
+            <p>
+                <b>授信評估5p原則:</b> 以借款戶、資金用途、還款來源、債權保障及借款人展望等五項因素，作為綜合評估授信戶信用的標準
+            </p>
+        </section>
+    </section>
+
+    <section id="challenges">
+        <h2>難題、解決方法</h2>
+        <section>
+            <h3>集中委外風險</h3>
+            <p>
+                <b>業務中斷：</b>  當一家或多家供應商出現問題，例如技術故障、資金問題或其他不可預測的事件時，金融機構可能面臨業務中斷的風險。如果多個業務流程都集中在相同的供應商手中，一旦供應商出現問題，整個業務流程可能受到嚴重影響
+            </p>
+            <p>
+                <b>操作問題：</b> 人機協作的模式，推動技能培訓、產業與政府協作，應對新興技術和工作的變化
+            </p>
+            <p>
+                <b>合規風險：</b> 金融機構需要確保其委外活動符合相關的法規和合規標準。集中委外可能使得合規風險更加突出，因為金融機構可能難以有效監控和管理供應商的合規性
+            </p>
+            <p>
+                <b>供應商風險：</b> 金融機構需要確保其委外活動符合相關的法規和合規標準。集中委外可能使得合規風險更加突出，因為金融機構可能難以有效監控和管理供應商的合規性
+            </p>
+        </section>
+        <section>
+            <h3>黑箱作業</h3>
+            <p>
+                <b>難題:</b> AI仰賴的數據充滿偏見，其中最大的挑戰為<span class="colored-text">AI的黑盒子</span>，在數據進去、答案出來下，整個過程為黑箱作業，且解釋模型的決策過程困難
+            </p>
+            <p>
+                <b>解決方法:</b> 集中委外可能增加操作風險，因為金融機構將關鍵業務流程外包給第三方，可能導致失控或無法即時掌握操作情況
+            </p>
+        </section>
+        <section>
+            <h3>取代人類工作</h3>
+            <p>
+                <b>難題:</b> 自助服務、線上銀行和自動處理系統的普及，取代例行與重複性較高的工作(金融業的第一線櫃檯人員)
+            </p>
+            <p>
+                <b>解決方法:</b> 人機協作的模式，推動技能培訓、產業與政府協作，應對新興技術和工作的變化
+            </p>
+        </section>
+    </section>
+
+    <section>
+        <section id="future">
+            <h2>未來展望</h2>
+            <p>
+                <b>智慧及個人化的金融服務：</b> AI和大數據將使金融服務更加個人化，能夠根據個人需求和偏好提供客製化的金融產品和服務
+            </p>
+            <p>
+                <b>全球金融服務的進一步融合:</b> 隨著科技的全球化，我們可以預見到更多跨國和跨境的金融科技應用，使全球金融市場更加緊密連結
+            </p>
+            <p>
+                <b>創新金融產品的興起：</b> 新科技將推動創新金融產品的開發，如更複雜的金融衍生品和改善的財富管理工具
+            </p>
+            <p>
+                <b>金融包容性的提升:</b> 金融科技有可能降低交易成本和提高服務效率，從使更多人能夠獲得金融服務，特別是在金融服務不足的地區
+            </p>
+        </section>
+    </section>
+
+    <section id="sources">
+        <h2>資料來源</h2>
+        <ol>
+            <li><a href="https://www.fintechspace.com.tw/zh-hant/dictionary/新增項目-金融科技/" target="_blank">金融科技定義, 金融科技創新園區</a></li>
+            <li><a href="https://www.influxfin.com/articlepage/fintech-instance" target="_blank">金融科技應用、未來出路, 普匯金融科技</a></li>
+            <li><a href="https://ir.nctu.edu.tw/bitstream/11536/154676/1/infoman-201910-5.pdf" target="_blank">人工智慧在金融科技的運用, 《科學發展》月刊 第555期</a></li>
+            <li><a href="https://www.netapp.com/zh-hant/artificial-intelligence/ai-for-financial-services/" target="_blank">人工智慧：適用於金融服務業的AI, NetApp</a></li>
+            <li><a href="https://www.fisc.com.tw/Download/101_07.pdf" target="_blank">預防AI金融服務可能造成的六大風險, 財金資訊股份有限公司</a></li>
+            <li><a href="https://www.fisc.com.tw/Upload/d56378d2-ff51-4552-9ab2-12ff1dd64a84/TC/9501.pdf" target="_blank">人工智慧技術發展趨勢與金融應用的未來展望, 財金資訊股份有限公司</a></li>
+            <li><a href="https://tw.news.yahoo.com/ai%E5%B0%87%E5%8F%96%E4%BB%A3%E4%BD%A0%E7%9A%84%E5%B7%A5%E4%BD%9C-%E9%80%99%E5%B9%B4%E9%BD%A1%E5%B1%A4%E6%8C%AB%E5%92%A7%E7%AD%89-5%E9%A1%9E%E8%81%B7%E6%A5%AD%E8%A1%9D%E6%93%8A%E6%9C%80%E5%A4%A7-024530356.html?guce_referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8&guce_referrer_sig=AQAAAKsL-E6Gp3yri7-n2XHXuilK_CPX39CiQYFk8SMNikegUSqlzoJ0FqmMzRixkJyL0NWLr14sR2BhhFXxaK-ViKwhhvuvBzyNLOYQyyzTGG9PICW0kZDo8WLXa7wcvjYg2upAVGM4w1-b3EKAMqPRJNa5YNLC-MKI2peNPcCWcS8c" target="_blank">AI取代人類工作, TVBS新聞網</a></li>
+            <li><a href="https://money.udn.com/money/story/122331/7540191" target="_blank">商業興觀點／AI時代的工作新思維, 經濟日報</a></li>
+        </ol>
+    </section>
+
+    <footer>
+        &copy; 第四組 Ai 在金融科技的運用及未來展望
+    </footer>
+
+    <script>
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    </script>
+
+    <button onclick="scrollToTop()" id="scrollToTopBtn">TOP ↑</button>
+
+    <script>
+        // Function to scroll to the top of the page
+        function scrollToTop() {
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE, and Opera
+        }
+
+        // Show/hide scroll to top button based on scroll position
+        window.onscroll = function () {
+            toggleScrollToTopButton();
+        };
+
+        function toggleScrollToTopButton() {
+            var button = document.getElementById("scrollToTopBtn");
+
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                button.style.display = "block";
+                button.classList.add("fade-in");
+                button.classList.remove("fade-out");
+            } else {
+                button.classList.add("fade-out");
+                button.classList.remove("fade-in");
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
