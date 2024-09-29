@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抽獎活動頁面</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #c1d8e9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.05);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .square {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+            cursor: pointer;
+            padding: 20px;
+        }
+
+        .square:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .description {
+            text-align: center;
+            color: #333;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button onclick="openEventPage('event_setting.html')">創建新的抽獎活動</button>
+
+    <div class="container" id="eventContainer"></div>
+
+    <script>
+        function openEventPage(url) {
+            window.location.href = url;
+        }
+
+        document.addEventListener('DOMContentLoaded', createNewEvent);
+
+        function createNewEvent() {
+            const eventContainer = document.getElementById('eventContainer');
+            try {
+                const events = JSON.parse(sessionStorage.getItem('eventDatas')) || [];
+                if (events.length > 0) {
+                    events.forEach((event, index) => {
+                        const eventName = event.eventName || '未設定';
+                        const eventDeadline = event.eventDeadline || '未設定';
+                        const status = event.status || '進行中';
+
+                        const newSquare = document.createElement('div');
+                        newSquare.className = 'square';
+                        newSquare.onclick = () => openEventDetail(index);
+
+                        const description = document.createElement('div');
+                        description.className = 'description';
+                        description.innerHTML = `
+                            <div><strong>活動名稱</strong></div><div>${eventName}</div>
+                            <div><strong>截止日期</strong></div><div>${eventDeadline}</div>
+                            <div><strong>狀態</strong></div><div>${status}</div>
+                        `;
+
+                        newSquare.appendChild(description);
+                        eventContainer.appendChild(newSquare);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading events:', error);
+                alert('載入活動時出錯，請檢查控制台日誌2。');
+            }
+        }
+
+        function openEventDetail(index) {
+            sessionStorage.setItem('currentEvent_index', JSON.stringify(index));
+            window.location.href = 'event_detail.html';
+        }
+    </script>
+
+</body>
+
+</html>

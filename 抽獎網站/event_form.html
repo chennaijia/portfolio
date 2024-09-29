@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表單輸入</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #c1d8e9;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #007BFF;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .buttons button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>GDG抽獎表單</h2>
+        <form id="userForm">
+            <div class="form-group">
+                <label for="email">常用信箱</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="department">系級</label>
+                <input type="text" id="department" name="department" required>
+            </div>
+            <div class="form-group">
+                <label for="studentId">學號</label>
+                <input type="text" id="studentId" name="studentId" required>
+            </div>
+            <div class="form-group">
+                <label for="name">姓名</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="buttons">
+                <button type="submit">提交</button>
+                <button type="reset">重設</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function getEventName(){
+            const event_index = JSON.parse(sessionStorage.getItem('currentEvent_index'));
+            let events = JSON.parse(sessionStorage.getItem('eventDatas')) || [];
+            let name = events[event_index].eventName;
+            return name;
+        }
+
+        $('#userForm').submit(function (e) {
+            e.preventDefault();
+
+            const eventName = getEventName();
+            const email = $('#email').val();
+            const department = $('#department').val();
+            const studentId = $('#studentId').val();
+            const name = $('#name').val();
+
+            if (email && department && studentId && name) {
+                $.ajax({
+                    url: "https://docs.google.com/forms/d/e/1FAIpQLSdRPuSVe78KYx7tFd9Lb5ME2z5Fh0ps_wYHhc_ey5MOTXg6Mg/formResponse", // 注意這裡應該是 formResponse
+                    data: {
+                        "entry.690707735": eventName,
+                        "entry.1077364126": email,      // 替換成你的表單欄位ID
+                        "entry.322545395": department,  // 替換成你的表單欄位ID
+                        "entry.570028580": studentId,   // 替換成你的表單欄位ID
+                        "entry.938563362": name         // 替換成你的表單欄位ID
+                    },
+                    type: "POST",
+                    dataType: "jsonp",
+                    complete: function () {
+                        $('#email').val('')
+                        $('#department').val('')
+                        $('#studentId').val('')
+                        $('#name').val('')
+                        alert("已填寫完成")
+                        window.location.replace("")
+                    }
+                })
+            }
+        });
+    </script>
+</body>
+
+</html>
