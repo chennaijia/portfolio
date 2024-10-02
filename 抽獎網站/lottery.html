@@ -15,7 +15,7 @@
             padding: 20px;
         }
 
-        button {
+        button.homePageButton {
             padding: 10px 20px;
             font-size: 16px;
             margin-bottom: 20px;
@@ -27,7 +27,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
-        button:hover {
+        button.homePageButton:hover {
             background-color: #f0f0f0;
             transform: scale(1.05);
         }
@@ -67,7 +67,7 @@
 
 <body>
 
-    <button onclick="openEventPage('event_setting.html')">創建新的抽獎活動</button>
+    <button class="homePageButton" onclick="openEventPage('event_setting.html')">創建新的抽獎活動</button>
 
     <div class="container" id="eventContainer"></div>
 

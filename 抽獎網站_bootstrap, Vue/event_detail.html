@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活動詳情</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #c1d8e9;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .description {
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+            display: grid;
+            grid-template-columns: 3fr 6fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .description div,
+        .description p {
+            margin: 0;
+        }
+
+        .edit-button {
+            color: #1e69a2;
+            font-size: 12px;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #92c5ec;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .buttons button:hover {
+            background-color: #c1d8e9;
+            transform: scale(1.05);
+        }
+
+        .buttons button.back-button {
+            background-color: #bec4c9;
+        }
+
+        .buttons button.back-button:hover {
+            background-color: #d4d8db;
+        }
+
+        .buttons button.delete-button{
+            background-color: #eec1c1;
+        }
+
+        .buttons button.delete-button:hover {
+            background-color: #edd7d7;
+        }
+
+        .prize-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0; /* 添加分隔線 */
+            margin: 5px 0;
+        }
+
+        .prize-row-edit {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;/* 添加分隔線 */
+            margin: 5px 0;
+        }
+
+        .prize-row p {
+            margin: 0;
+            font-size: 16px;
+            color: #444;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="description">
+            <div><strong>活動名稱</strong></div>
+            <div id="eventName">待輸入</div>
+            <span class="edit-button" onclick="editField('eventName')">修改</span>
+
+            <div><strong>截止日期</strong></div>
+            <p id="eventDeadline">待輸入</p>
+            <span class="edit-button" onclick="editField('eventDeadline')">修改</span>
+
+            <div><strong>狀態</strong></div>
+            <p id="eventStatus">待輸入</p>
+            <span class="edit-button" onclick="editField('eventStatus')">修改</span>
+
+            <div><strong>獎品</strong></div>
+            <div id="eventPrizes">待輸入</div>
+            <div id="eventPrizes_edit">待輸入</div>
+            <div id="eventPrizes">
+                <button class="add-prize-button" onclick="addPrize()">新增獎品</button>
+            </div>
+        </div>
+        <div class="buttons">
+            <button onclick="openEventPage('event_form.html')">取得活動表單</button>
+            <button onclick="openEventPage('https://docs.google.com/spreadsheets/d/1Kgrdkd-K2Yx0E469TP7dW7YTn4ThdbrTwV7yUYWejPA/edit?usp=sharing')">取得填寫資料</button>
+            <button class="delete-button" onclick="deleteEvent()">刪除活動</button>
+            <button class="back-button" onclick="goBack()">返回</button>
+        </div>
+    </div>
+
+    <script>
+        function openEventPage(url) {
+            window.location.href = url;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const event_index = JSON.parse(sessionStorage.getItem('currentEvent_index'));
+            const events = JSON.parse(sessionStorage.getItem('eventDatas')) || [];
+            const event = events[event_index];
+            if (event) {
+                document.getElementById('eventName').textContent = event.eventName;
+                document.getElementById('eventDeadline').textContent = event.eventDeadline;
+                document.getElementById('eventStatus').textContent = event.status;
+                const prizesContainer = document.getElementById('eventPrizes');
+                prizesContainer.innerHTML = '';
+                const prizesContainer_edit = document.getElementById('eventPrizes_edit');
+                prizesContainer_edit.innerHTML = '';
+                event.prizes.forEach((prize, index) => {
+                    const prizeElement = document.createElement('div');
+                    prizeElement.className = 'prize-row';
+                    prizeElement.innerHTML = `<p>${prize.item} - 數量: ${prize.quantity}</p>`;
+                    prizesContainer.appendChild(prizeElement);
+                    const prizeElement_edit = document.createElement('div');
+                    prizeElement_edit.className = 'prize-row-edit';
+                    prizeElement_edit.innerHTML = `<span class="edit-button" onclick="editPrize(${index})">修改</span>`;
+                    prizesContainer_edit.appendChild(prizeElement_edit);
+                });
+            } else {
+                alert('無法載入活動資料');
+            }
+        });
+
+        function editField(fieldId) {
+            const fieldElement = document.getElementById(fieldId);
+            const currentValue = fieldElement.textContent;
+            const newValue = prompt(`修改${fieldElement.previousElementSibling.textContent}`, currentValue);
+            if (newValue !== null && newValue.trim() !== '') {
+                fieldElement.textContent = newValue;
+                updateEventData(fieldId, newValue);
+            }
+        }
+
+        function editPrize(index) {
+            const event_index = JSON.parse(sessionStorage.getItem('currentEvent_index'));
+            const events = JSON.parse(sessionStorage.getItem('eventDatas')) || [];
+            const event = events[event_index];
+            const prize = event.prizes[index];
+            const newItem = prompt("修改獎品名稱", prize.item);
+            const newQuantity = prompt("修改獎品數量", prize.quantity);
+            if (newItem !== null && newQuantity !== null) {
+                prize.item = newItem.trim();
+                prize.quantity = newQuantity.trim();
+                events[event_index] = event;
+                sessionStorage.setItem('eventDatas', JSON.stringify(events));
+                location.reload(); 
+            }
+        }
+
+
+        function updateEventData(fieldId, newValue) {
+            const event_index = JSON.parse(sessionStorage.getItem('currentEvent_index'));
+            const events = JSON.parse(sessionStorage.getItem('eventDatas')) || [];
+            const event = events[event_index];
+            switch (fieldId) {
+                case 'eventName':
+                    event.eventName = newValue;
+                    break;
+                case 'eventDeadline':
+                    event.eventDeadline = newValue;
+                    break;
+                case 'eventStatus':
+                    event.status = newValue;
+                    break;
+                case 'eventPrizes':
+                    event.prizes = newValue.split(',').map(prize => {
+                        const [item, quantity] = prize.split('-');
+                        return { item: item.trim(), quantity: quantity.trim() };
+                    });
+                    break;
+            }
+            events[event_index] = event;
+            sessionStorage.setItem('eventDatas', JSON.stringify(events));
+            alert('資料已更新');
+        }
+
+        function addPrize() {
+            const prizeName = prompt('請輸入獎品名稱');
+            const prizeQuantity = prompt('請輸入獎品數量');
+            if (prizeName && prizeQuantity) {
+                const event_index = JSON.parse(sessionStorage.getItem('currentEvent_index'));
+                const events = JSON.parse(sessionStorage.getItem('eventDatas')) || [];
+                const event = events[event_index];
+                const newPrize = { item: prizeName, quantity: prizeQuantity };
+                event.prizes.push(newPrize);
+                events[event_index] = event;
+                sessionStorage.setItem('eventDatas', JSON.stringify(events));
+                location.reload();
+            } else {
+                alert('請輸入完整的獎品資訊');
+            }
+        }
+
+        function goBack() {
+            window.location.href = 'lottery.html';
+        }
+
+        function deleteEvent() {
+            const confirmDelete = confirm('是否確認刪除此活動？');
+            if (confirmDelete) {
+                const event_index = JSON.parse(sessionStorage.getItem('currentEvent_index'));
+                let events = JSON.parse(sessionStorage.getItem('eventDatas')) || [];
+                events.splice(event_index, 1); // 移除活動
+                sessionStorage.setItem('eventDatas', JSON.stringify(events));
+                alert('活動已刪除');
+                window.location.href = 'lottery.html';
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+    <title>抽獎活動頁面</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #c1d8e9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        button.homePageButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        button.homePageButton:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.05);
+        }
+
+        .event_container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .square {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+            cursor: pointer;
+            padding: 20px;
+        }
+
+        .square:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .description {
+            text-align: center;
+            color: #333;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        header nav img{
+            width: 160px;
+        }
+
+        header li{
+            margin:0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">
+                        <img src="GDSC.png">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">總覽</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    類別
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">抽獎</a></li>
+                                    <li><a class="dropdown-item" href="#">報到</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <button class="homePageButton" onclick="openEventPage('event_setting.html')">創建新的抽獎活動</button>
+
+    <div class="event_container" id="eventContainer"></div>
+
+    <script>
+        function openEventPage(url) {
+            window.location.href = url;
+        }
+
+        document.addEventListener('DOMContentLoaded', createNewEvent);
+
+        function createNewEvent() {
+            const eventContainer = document.getElementById('eventContainer');
+            try {
+                const events = JSON.parse(sessionStorage.getItem('eventDatas')) || [];
+                if (events.length > 0) {
+                    events.forEach((event, index) => {
+                        const eventName = event.eventName || '未設定';
+                        const eventDeadline = event.eventDeadline || '未設定';
+                        const status = event.status || '進行中';
+
+                        const newSquare = document.createElement('div');
+                        newSquare.className = 'square';
+                        newSquare.onclick = () => openEventDetail(index);
+
+                        const description = document.createElement('div');
+                        description.className = 'description';
+                        description.innerHTML = `
+                            <div><strong>活動名稱</strong></div><div>${eventName}</div>
+                            <div><strong>截止日期</strong></div><div>${eventDeadline}</div>
+                            <div><strong>狀態</strong></div><div>${status}</div>
+                        `;
+
+                        newSquare.appendChild(description);
+                        eventContainer.appendChild(newSquare);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading events:', error);
+                alert('載入活動時出錯，請檢查控制台日誌2。');
+            }
+        }
+
+        function openEventDetail(index) {
+            sessionStorage.setItem('currentEvent_index', JSON.stringify(index));
+            window.location.href = 'event_detail.html';
+        }
+    </script>
+
+</body>
+
+</html>
